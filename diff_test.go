@@ -136,7 +136,7 @@ func ExampleDiff() {
 	// +6
 }
 
-func ExampleLineDiff() {
+func ExampleTextDiff() {
 	a := []byte("a\nb\nc\nd\nf\ng\nh\nj\nq\nz")
 	b := []byte("a\nb\nc\nd\ne\nf\ng\ni\nj\nk\nr\nx\ny\nz")
 	for _, δ := range diff.TextDiff(a, b, nil, nil) {
