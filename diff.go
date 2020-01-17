@@ -31,19 +31,31 @@ const (
 // Diff calculates a minimal diff between a and b as a series of operations.
 // See the example for how to interpret the result.
 func Diff(a, b []uint64) []Op {
+	var prefix, suffix []Op
+	for len(a) > 0 && len(b) > 0 && a[0] == b[0] {
+		prefix = append(prefix, OpEq)
+		a, b = a[1:], b[1:]
+	}
+	for len(a) > 0 && len(b) > 0 && a[len(a)-1] == b[len(b)-1] {
+		suffix = append(suffix, OpEq)
+		a, b = a[:len(a)-1], b[:len(b)-1]
+	}
+	for i := 0; i < len(suffix)/2; i++ {
+		a[i], a[len(a)-i-1] = a[len(a)-i-1], a[i]
+	}
 	if len(a) == 0 {
 		out := make([]Op, len(b))
 		for i := range out {
 			out[i] = OpB
 		}
-		return out
+		return append(append(prefix, out...), suffix...)
 	}
 	if len(b) == 0 {
 		out := make([]Op, len(a))
 		for i := range out {
 			out[i] = OpA
 		}
-		return out
+		return append(append(prefix, out...), suffix...)
 	}
 
 	swap := Op(1)
@@ -108,7 +120,7 @@ func Diff(a, b []uint64) []Op {
 			c = c.prev
 		}
 	}
-	return out
+	return append(append(prefix, out...), suffix...)
 }
 
 type element struct {
