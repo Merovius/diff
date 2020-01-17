@@ -189,7 +189,7 @@ func TextDiff(a, b []byte, s SplitFunc, h HashFunc) []TextDelta {
 		s = SplitLines
 	}
 	if h == nil {
-		h = DefaultHash
+		h = DefaultHash()
 	}
 	la, ha := tokenize(a, h, s)
 	lb, hb := tokenize(b, h, s)
@@ -250,7 +250,7 @@ func SplitLines(b []byte) (tok, skip int) {
 // A HashFunc maps a token to an integer.
 type HashFunc func(b []byte) uint64
 
-// DefaultHash is a sensible (but unspecified) hash functions for TextDiff.
-func DefaultHash(b []byte) uint64 {
-	return defaultHash(b)
+// DefaultHash returns a sensible (but unspecified) hash function for TextDiff.
+func DefaultHash() HashFunc {
+	return defaultHash()
 }
