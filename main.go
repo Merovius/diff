@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	colorize(diff.LineDiff(a, b))
+	colorize(diff.Lines(a, b))
 }
 
 func colorize(d []diff.TextDelta) {

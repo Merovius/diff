@@ -36,7 +36,7 @@ func TestDiff(t *testing.T) {
 		t.Run("", func(t *testing.T) {
 			ac := append([]uint64{}, tc.a...)
 			bc := append([]uint64{}, tc.b...)
-			got := diff.Diff(tc.a, tc.b)
+			got := diff.Uint64(tc.a, tc.b)
 			if !sameSeq(tc.a, ac) {
 				t.Fatalf("Diff modified a")
 			}
@@ -108,7 +108,7 @@ func sameSeq(l, r []uint64) bool {
 func ExampleDiff() {
 	a := []uint64{1, 1, 1, 3, 4, 4}
 	b := []uint64{0, 1, 0, 1, 0, 3, 1, 4, 5, 4, 6}
-	for _, o := range diff.Diff(a, b) {
+	for _, o := range diff.Uint64(a, b) {
 		switch o {
 		case diff.OpA:
 			fmt.Printf("-%d\n", a[0])
@@ -139,7 +139,7 @@ func ExampleDiff() {
 func ExampleTextDiff() {
 	a := []byte("a\nb\nc\nd\nf\ng\nh\nj\nq\nz")
 	b := []byte("a\nb\nc\nd\ne\nf\ng\ni\nj\nk\nr\nx\ny\nz")
-	for _, δ := range diff.TextDiff(a, b, nil, nil) {
+	for _, δ := range diff.Text(a, b, nil, nil) {
 		switch δ.Op {
 		case diff.OpA:
 			fmt.Printf("- %s\n", δ.Text)

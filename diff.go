@@ -30,7 +30,7 @@ const (
 
 // Diff calculates a minimal diff between a and b as a series of operations.
 // See the example for how to interpret the result.
-func Diff(a, b []uint64) []Op {
+func Uint64(a, b []uint64) []Op {
 	var prefix, suffix []Op
 	for len(a) > 0 && len(b) > 0 && a[0] == b[0] {
 		prefix = append(prefix, OpEq)
@@ -184,7 +184,7 @@ type TextDelta struct {
 // In case of an EqOp delta where the corresponding tokens of a and b differ
 // (but hash to the same value), it is unspecified which of the two is
 // returned.
-func TextDiff(a, b []byte, s SplitFunc, h HashFunc) []TextDelta {
+func Text(a, b []byte, s SplitFunc, h HashFunc) []TextDelta {
 	if s == nil {
 		s = SplitLines
 	}
@@ -193,7 +193,7 @@ func TextDiff(a, b []byte, s SplitFunc, h HashFunc) []TextDelta {
 	}
 	la, ha := tokenize(a, h, s)
 	lb, hb := tokenize(b, h, s)
-	diff := Diff(ha, hb)
+	diff := Uint64(ha, hb)
 	var out []TextDelta
 	for _, d := range diff {
 		δ := TextDelta{Op: d}
@@ -211,8 +211,8 @@ func TextDiff(a, b []byte, s SplitFunc, h HashFunc) []TextDelta {
 }
 
 // LineDiff is equivalent to TextDiff(a, b, nil, nil).
-func LineDiff(a, b []byte) []TextDelta {
-	return TextDiff(a, b, nil, nil)
+func Lines(a, b []byte) []TextDelta {
+	return Text(a, b, nil, nil)
 }
 
 func tokenize(a []byte, h HashFunc, s SplitFunc) ([][]byte, []uint64) {
