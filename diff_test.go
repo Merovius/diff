@@ -105,7 +105,7 @@ func sameSeq(l, r []uint64) bool {
 	return true
 }
 
-func ExampleDiff() {
+func ExampleUint64() {
 	a := []uint64{1, 1, 1, 3, 4, 4}
 	b := []uint64{0, 1, 0, 1, 0, 3, 1, 4, 5, 4, 6}
 	for _, o := range diff.Uint64(a, b) {
@@ -136,7 +136,7 @@ func ExampleDiff() {
 	// +6
 }
 
-func ExampleTextDiff() {
+func ExampleText() {
 	a := []byte("a\nb\nc\nd\nf\ng\nh\nj\nq\nz")
 	b := []byte("a\nb\nc\nd\ne\nf\ng\ni\nj\nk\nr\nx\ny\nz")
 	for _, δ := range diff.Text(a, b, nil, nil) {
